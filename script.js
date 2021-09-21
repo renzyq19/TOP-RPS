@@ -1,8 +1,30 @@
-const options = { rock: 0, paper: 1, scissors: 2 };
-const getPlayerChoice = () => {
-  const input = prompt("Input your move");
-  return options[input.toLowerCase()];
-};
+const optionButtons = document.querySelectorAll("[data-option]");
+
+const winnerDisplay = document.querySelector(".display__winner");
+const computerDisplay = document.querySelector(".display__computer");
+const playerDisplay = document.querySelector(".display__player");
+const playerScoreDisplay = document.querySelector(".display__score_player");
+const computerScoreDisplay = document.querySelector(".display__score_computer");
+
+optionButtons.forEach((button) => button.addEventListener("click", play));
+
+let playerScore = 0;
+let computerScore = 0;
+let totalRounds = 0;
+
+function play() {
+  const player = this.dataset.option;
+  const computer = getComputerChoice();
+  const res = playRound(options.indexOf(player), computer);
+  winnerDisplay.textContent = res;
+  computerDisplay.textContent = `Computer: ${options[computer]}`;
+  playerDisplay.textContent = `Player: ${player}`;
+  computerScoreDisplay.textContent = `Computer score : ${computerScore}/${totalRounds}`;
+  playerScoreDisplay.textContent = `Player score : ${playerScore}/${totalRounds}`;
+}
+
+const options = ["rock", "paper", "scissors"];
+
 const getComputerChoice = () => Math.floor(Math.random() * 3);
 const playRound = (playerSelection, computerSelection) => {
   const selections = `${playerSelection}${computerSelection}`;
@@ -17,14 +39,13 @@ const playRound = (playerSelection, computerSelection) => {
     case "12":
     case "20":
       result = "Player Lose";
+      computerScore++;
       break;
     default:
       result = "Player Win";
+      playerScore++;
       break;
   }
+  totalRounds++;
   return result;
 };
-const play = () =>
-  Array(5)
-    .fill(playRound)
-    .map((round) => round(getPlayerChoice(), getComputerChoice()));
