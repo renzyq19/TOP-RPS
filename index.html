@@ -1,38 +1,13 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Rock Paper Scissors</title>
-    </head>
-    <body>
-    </body>
-    <script>
-        const options = {'rock': 0, 'paper': 1, 'scissors': 2}
-        const getPlayerChoice = () => {
-            const input = prompt('Input your move')
-            return options[input.toLowerCase()]
-        }
-        const getComputerChoice = () => Math.floor(Math.random() * 3)
-        const playRound = (playerSelection,computerSelection) => {
-            const selections = `${playerSelection}${computerSelection}`
-            let result
-            switch(selections){
-                        case '00':
-                        case '11':
-                        case '22':
-                            result = "Draw"
-                            break
-                        case '01':
-                        case '12':
-                        case '20': 
-                            result = "Player Lose"
-                            break
-                        default:
-                            result = "Player Win"
-                            break
-            }
-            return result
-        }
-        const play = () => Array(5).fill(playRound).map((round) => round(getPlayerChoice(),getComputerChoice()))
-        
-    </script>
+<head>
+    <title>Rock Paper Scissors</title>
+    <meta charset="UTF-8" />
+    <script type="text/javascript" src="./script.js" defer></script>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <h1>Rock Paper Scissors</h1>
+
+  </body>
 </html>
