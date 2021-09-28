@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  font-family: helvetica, arial, sans;
+}
+
+body {
+  inset: 0;
+  position: fixed;
+  display: grid;
+
+  grid-template-rows: 100px repeat(3, 1fr) 100px;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+}
+
+h1 {
+  grid-column: 2 / 5;
+  align-self: center;
+  justify-self: center;
+}
+
+.options {
+  grid-column: 2/5;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: var(--color, black);
+  z-index: 1;
+}
+
+.player {
+  grid-row: 3 / 4;
+}
+
+.computer {
+  grid-row: 4 / 5;
+}
+.display {
+  grid-column: 1/ 2;
+  align-self: center;
+  justify-self: center;
+}
+
+.options > .bold {
+  font-weight: bold;
+}
+
+.options > * {
+  position: relative;
+  isolation: isolate;
+}
+
+.bold::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: -1em;
+  outline: 3px var(--color) dotted;
+  color: var(--color);
+  z-index: -1;
+}
+
+.round {
+  grid-row: 2/3;
+  grid-column: 1/-1;
+  justify-self: center;
+}
+
+.options > .win {
+  --color: green;
+}
+.options > .lose {
+  --color: red;
+}
+.options > .draw {
+  --color: rgba(0, 0, 0, 0.1);
+}
+
+.options.player > * {
+  cursor: pointer;
+}
+.options.computer > * {
+  cursor: not-allowed;
+  user-select: none;
+}

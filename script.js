@@ -1,10 +1,10 @@
-const optionButtons = document.querySelectorAll("[data-option]");
+const round = document.querySelector(".round");
 
-const winnerDisplay = document.querySelector(".display__winner");
-const computerDisplay = document.querySelector(".display__computer");
-const playerDisplay = document.querySelector(".display__player");
-const playerScoreDisplay = document.querySelector(".display__score_player");
-const computerScoreDisplay = document.querySelector(".display__score_computer");
+const optionButtons = document.querySelectorAll(".player [data-option]");
+const computerButtons = document.querySelectorAll(".computer [data-option]");
+
+const playerScoreDisplay = document.querySelector(".score.player");
+const computerScoreDisplay = document.querySelector(".score.computer");
 
 optionButtons.forEach((button) => button.addEventListener("click", play));
 
@@ -13,14 +13,24 @@ let computerScore = 0;
 let totalRounds = 0;
 
 function play() {
+  totalRounds++;
   const player = this.dataset.option;
   const computer = getComputerChoice();
   const res = playRound(options.indexOf(player), computer);
-  winnerDisplay.textContent = res;
-  computerDisplay.textContent = `Computer: ${options[computer]}`;
-  playerDisplay.textContent = `Player: ${player}`;
-  computerScoreDisplay.textContent = `Computer score : ${computerScore}/${totalRounds}`;
-  playerScoreDisplay.textContent = `Player score : ${playerScore}/${totalRounds}`;
+
+  if (res.indexOf("win") == 0) playerScore++;
+  if (res.indexOf("win") == 1) computerScore++;
+  [...optionButtons, ...computerButtons].forEach((button) =>
+    button.classList.remove(...button.classList)
+  );
+  this.classList.add("bold", res[0]);
+  computerButtons.forEach((option) => {
+    if (option.dataset.option == options[computer])
+      option.classList.add(res[1], "bold");
+  });
+  computerScoreDisplay.textContent = `${computerScore}`;
+  playerScoreDisplay.textContent = `${playerScore}`;
+  round.textContent = `Round: ${totalRounds}`;
 }
 
 const options = ["rock", "paper", "scissors"];
@@ -33,19 +43,16 @@ const playRound = (playerSelection, computerSelection) => {
     case "00":
     case "11":
     case "22":
-      result = "Draw";
+      result = ["draw", "draw"];
       break;
     case "01":
     case "12":
     case "20":
-      result = "Player Lose";
-      computerScore++;
+      result = ["lose", "win"];
       break;
     default:
-      result = "Player Win";
-      playerScore++;
+      result = ["win", "lose"];
       break;
   }
-  totalRounds++;
   return result;
 };
